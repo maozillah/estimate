@@ -19,38 +19,41 @@ function ValidateLogin()
     $sentUserName = $_POST['txtUserName'];
     $sentPassword = $_POST['txtPassword'];
     
-    // Never EVER trust data sent to us, sanitize:
-    // htmlspecialchars will replace things like < with &lt;
-    // NOTE: There may be occasions you do not want to do that before the
-    // data goes into the DB. In that case, make sure you do it
-    // when the data comes out, but before it's shown on an HTML page.
-    // Otherwise it's script injection time!
-    
-    // Caution: we are NOT removing characters that likely should not 
-    // appear in a user name. E.g. ', %, (), or other punctuation, etc.
-    // This could be done with Regular Expressions - but we won't worry
-    // about it this semester. E.g. we don't really want < or &lt; in a
     // user name...
     $userName = htmlspecialchars($sentUserName);
     $password = ($sentPassword);
 
-     
-    $mysqli = ConnectToDB();
-    $userExists="SELECT user_email WHERE user_email = $userName AND password = $password";
+    global $mysqli;
+
+    // $userExists="SELECT user_email, password FROM users ORDER BY user_email;";
+    $userExists="SELECT user_email FROM users WHERE user_email ='$userName' AND password ='$password'";
     $result = $mysqli->query($userExists);
-   if($userExists>0)
-   {
-    session_start();
-         $_SESSION["isLoggedIn"] = true;
-         $_SESSION["userName"] = $userName;
-         $_SESSION["pageCount"] = 0; 
-         header("Location: private/index.php");
-   }
- else
-    {
-  return ('That is an invalid login name or password.');
+
+    if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        // echo "email: " . $row["user_email"]. " - password: " . $row["password"]. "<br>";
+        echo "email: " . $row["user_email"]. "<br>";
     }
-    $mysqli->close();
+} else {
+    echo "0 results";
+}
+$mysqli->close();
+
+ //   if($userExists>0)
+ //   {
+ //    session_start();
+ //         $_SESSION["isLoggedIn"] = true;
+ //         $_SESSION["userName"] = $userName;
+ //         $_SESSION["pageCount"] = 0; 
+ //         header("Location: private/index.php");
+ //   }
+ // else
+ //    {
+ //  return ('That is an invalid login name or password.');
+ //    }
+
+    // $mysqli->close();
 
 
      // if ( ($userName == 'Ian') && ($password = '1234') )
