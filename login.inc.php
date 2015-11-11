@@ -2,7 +2,7 @@
 //This file in included in login.php, it runs when
 // the login page loads.
 /* Note: as mentioned before, if you continue with PHP  development you're strongly recommenced to look in to Object Oriented Programming - it can make certain things a lot easier... */
-require('db/db.inc.php');
+require('private/scripts/db.inc.php');
 
 $loginError = '';
 
@@ -23,50 +23,36 @@ function ValidateLogin()
     $userName = htmlspecialchars($sentUserName);
     $password = ($sentPassword);
 
-    global $mysqli;
+    // global $mysqli;
 
-    // $userExists="SELECT user_email, password FROM users ORDER BY user_email;";
-    $userExists="SELECT user_email FROM users WHERE user_email ='$userName' AND password ='$password'";
-    $result = $mysqli->query($userExists);
+    $mysqli = ConnectToDB();
 
-    if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        // echo "email: " . $row["user_email"]. " - password: " . $row["password"]. "<br>";
-        echo "email: " . $row["user_email"]. "<br>";
+    $sql="SELECT user_email FROM users WHERE user_email =? AND password =?;";
+    $stmt = $mysqli->prepare($sql); 
+    $stmt->bind_param('ss', $userName,$password);   
+    $stmt->execute();
+
+    $stmt->bind_result($email);
+    $stmt->fetch(); 
+
+
+    $stmt->close();
+    $mysqli->close();
+
+     echo $email;
+
+   if(!empty($email))
+   {
+    session_start();
+         $_SESSION["isLoggedIn"] = true;
+         $_SESSION["userName"] = $userName;
+         $_SESSION["pageCount"] = 0; 
+         header("Location: private/index.php");
+   }
+ else
+    {
+  return ('That is an invalid login name or password.');
     }
-} else {
-    echo "0 results";
 }
-$mysqli->close();
 
- //   if($userExists>0)
- //   {
- //    session_start();
- //         $_SESSION["isLoggedIn"] = true;
- //         $_SESSION["userName"] = $userName;
- //         $_SESSION["pageCount"] = 0; 
- //         header("Location: private/index.php");
- //   }
- // else
- //    {
- //  return ('That is an invalid login name or password.');
- //    }
-
-    // $mysqli->close();
-
-
-     // if ( ($userName == 'Ian') && ($password = '1234') )
-     // {
-     //     // Log me in. First, set/start the session:
-     //     session_start();
-     //     $_SESSION["isLoggedIn"] = true;
-     //     $_SESSION["userName"] = $userName;
-     //     $_SESSION["pageCount"] = 0; 
-     //     header("Location: private/index.php");
-     // } else {
-     //     // Invalid login, set the error message:
-     //     return ('That is an invalid login name or password.');
-     // }
-}
 ?>
