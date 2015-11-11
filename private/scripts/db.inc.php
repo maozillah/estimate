@@ -17,7 +17,7 @@ function ConnectToDB()
     } else {
         // All is good, return the connection to be used in the
         // other scripts:
-      echo "Connected successfully";
+      echo "Connected successfully <br><br>";
       return ($mysqli);
     }
 }

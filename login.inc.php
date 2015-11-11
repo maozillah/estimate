@@ -32,6 +32,7 @@ function ValidateLogin()
     $stmt->bind_param('ss', $userName,$password);   
     $stmt->execute();
 
+
     $stmt->bind_result($email);
     $stmt->fetch(); 
 
@@ -39,7 +40,6 @@ function ValidateLogin()
     $stmt->close();
     $mysqli->close();
 
-     echo $email;
 
    if(!empty($email))
    {
