@@ -6,6 +6,7 @@
 // You must "start" the session before you can use it.
 session_start();
 
+$userEmail = $_SESSION["userName"];
 
 // Verify they are validated users:
 if (! $_SESSION["isLoggedIn"] == true)

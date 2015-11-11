@@ -2,24 +2,52 @@
 
 ini_set('display_errors', '1'); 
 error_reporting(E_ALL); 
-// $username;
 
-// $authorid = isset($_POST['authorid']) ? $_POST['authorid'] : "";
-// $shootid = isset($_POST['shootid']) ? $_POST['shootid'] : "";
-// $filename = isset($_POST['filename']) ? $_POST['filename'] : "";
-// echo "Fed into write-gallery  ",$authorid," ",$shootid," ",$filename,"<br>";
+$nameErr = $typeErr = $scopeErr = "";
+$projectTitle =$type = $scope = "";
+
+$description = isset($_POST['projDescr']) ? test_input($_POST['projDescr']) : "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST['projTitle'])) {
+    $nameErr = "project title is required";
+  } else {
+    $projectTitle = test_input($_POST["projTitle"]);
+  }
+
+  if (empty($_POST["projectType"])) {
+    $typeErr = "project type is required";
+  } else {
+    $type = test_input($_POST["projectType"]);
+  }
+
+  if (empty($_POST["projectScope"])) {
+    $scopeErr = "project scope is required";
+  } else {
+    $scope = test_input($_POST["projectScope"]);
+  }
+}  
+
+echo "Fed into database  <br>",$projectTitle,"<br> ",$type,"<br> ",$scope,"<br>",$description,"<br>";
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
 
 // uncomment these next 3 lines for testing writing to your gallery
-require('db.inc.php');
+// require('db.inc.php');
 
-$project_active= "1";
-$userEmail = "kayexmao@gmail.com";
+$project_active= "1"; //always active
 
-$type = "1";
-$scope = "4";
-$projectTitle = "documentary";
-$description = "project 2 for mark class";
+// $type = "1";
+// $scope = "4";
+// $projectTitle = "documentary";
+// $description = "test test test";
 
+//
 $phaseTitle = "Sketching";
 
 //estimate time
@@ -40,17 +68,17 @@ try {
     $db->begin_transaction();
 
     // A set of queries; if one fails, an exception should be thrown
-    $db->query('INSERT INTO project (project_active, user_email, type_id, scope_id, project_title, description)
-			VALUES($project_active, $userEmail, $type,$scope,$projectTitle,$description);');
-    $db->query('INSERT INTO phase_titles (phase_title) 
-			VALUES($phaseTitle);');
-    $db->query('INSERT INTO time_entry (actual_time, start_time, end_time) 
-			VALUES($actualTime,$startTime,$endTime),($actualTime2,$startTime2,$endTime2);');
+   //  $db->query("INSERT INTO project (project_active, user_email, type_id, scope_id, project_title, description)
+			// VALUES('$project_active', '$userEmail', '$type','$scope','$projectTitle','$description');");
+    // $db->query("INSERT INTO phase_titles (phase_title) 
+			 // VALUES('$phaseTitle');");
+    // $db->query("INSERT INTO time_entry (actual_time, start_time, end_time) 
+			 // VALUES('$actualTime','$startTime','$endTime'),('$actualTime2','$startTime2','$endTime2');");
 
     // If we arrive here, it means that no exception was thrown
     // i.e. no query has failed, and we can commit the transaction
-     echo "New record created successfully";
     $db->commit();
+    echo "New record created successfully";
 } catch (Exception $e) {
     // An exception has been thrown
     // We must rollback the transaction
@@ -59,24 +87,4 @@ try {
 
 mysqli_close($db);
 		
-// this query gets all row from the database and then loops to the last one and displays it, to verify the write		
-// $query = 'select * from project'; 
-// $result = mysql_query($query) or die('Query failed:' . mysql_error() );
-
-// 		if ($result) {
-// 		$i=0;
-// 		while ($row = mysql_fetch_array($result)) {
-// 			$i++;
-// 			$id=$row['project_id'];
-// 			$authorid=$row['project_active'];
-// 			$shootid=$row['user_email'];
-// 			$filename=$row['project_title'];
-			
-// 			echo $id,$authorid,$shootid,$filename;
-// 			echo "<br>";
-// 		}
-// 	} else {
-// 		$error = "Sorry could not access db";
-// 	}
-	
 ?>
