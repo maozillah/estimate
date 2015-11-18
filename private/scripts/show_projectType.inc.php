@@ -1,20 +1,38 @@
 <?php //gallery_show.inc.php
 require('db.inc.php');
-                
-// This code is outside of a function, so it'll  run when the page loads:
-if (isset($_GET['projectType']) )
-{
-    $projectType = $_GET['projectType'];   
+
+if (isset($_GET['q'])) {
+    $q = $_GET['q'];
 } else {
-    // use 0 to mean all images regardless of gallery
-    $projectType = 0; 
+    $q = 0;
 }
 
-// $ProjInfo =  LoadImageTitle($projectType);
+echo $q;
 
-// --- Functions ---
+$userName = GetUserName();
+$mysqli = ConnectToDB();
 
-$sql = 'SELECT project.user_email, project.project_title, type.type_title, scope.scope_title, time_entry.start_time, time_entry.end_time, time_entry.actual_time
+// if ($q == 0) {
+//       $sql = 'SELECT project.project_title, type.type_title, scope.scope_title, time_entry.start_time, time_entry.end_time, time_entry.actual_time
+//     FROM project
+//       JOIN type
+//         ON type.type_id = project.type_id
+//       JOIN scope
+//         ON scope.scope_id =project.scope_id 
+//       JOIN phase
+//         ON project.project_id = phase.project_id
+//       JOIN phase_titles
+//         ON phase_titles.phase_title_id= phase.phase_title_id
+//       JOIN time_entry
+//         ON time_entry.phase_id = phase.phase_id
+//       WHERE user_email = ?
+//       ';
+//       $stmt   = $mysqli->prepare($sql);
+//     $stmt->bind_param('s', $userName);
+//     /* execute query */
+// $stmt->execute();
+// } else {
+    $sql = 'SELECT project.project_title, type.type_title, scope.scope_title, time_entry.start_time, time_entry.end_time, time_entry.actual_time
 FROM project
   JOIN type
     ON type.type_id = project.type_id
@@ -26,47 +44,51 @@ FROM project
     ON phase_titles.phase_title_id= phase.phase_title_id
   JOIN time_entry
     ON time_entry.phase_id = phase.phase_id
-  WHERE user_email = ?;';
+  WHERE user_email = ?
+  AND type_title =?
+  ';
 
+  $stmt   = $mysqli->prepare($sql);
+$stmt->bind_param('ss', $userName, $q);
+/* execute query */
+$stmt->execute();
+// }
 
-//can i access this variable elsewhere?
-$userName = GetUserName();
+/* Store the result (to get properties) */
+$stmt->store_result();
 
-$mysqli = ConnectToDB();
-$stmt = $mysqli->prepare($sql);   
+/* Get the number of rows */
+$num_of_rows = $stmt->num_rows;
 
-   $stmt->bind_param('s',$userName);
+/* Bind the result to variables */
+$stmt->bind_result($projectTitle, $projectType, $scope, $startTime, $endTime, $actualTime);
 
-   /* execute query */
-   $stmt->execute();
+echo "<table>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Age</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Age</th>
+      </tr>";
+while ($stmt->fetch()) {
+    echo "<tr>";
+    echo "<td>" . $projectTitle . "</td>";
+    echo "<td>" . $projectType . "</td>";
+    echo "<td>" . $scope . "</td>";
+    echo "<td>" . $startTime . "</td>";
+    echo "<td>" . $endTime . "</td>";
+    echo "<td>" . $actualTime . "</td>";
+    echo "</tr>";
+}
+echo "</table>";
 
-   /* Store the result (to get properties) */
-   $stmt->store_result();
+$stmt->free_result();
 
-   /* Get the number of rows */
-   $num_of_rows = $stmt->num_rows;
-
-   /* Bind the result to variables */
-   $stmt->bind_result($email, $projectTitle, $projectType, $scope, $startTime, $endTime, $actualTime );
-
-    while ($stmt->fetch()) {
-        echo 'ID: '.$email.'<br>';
-        echo 'First Name: '.$projectTitle.'<br>';
-        echo 'Last Name: '.$projectType.'<br>';
-        echo 'scope: '.$scope.'<br>';
-        echo 'Username: '.$startTime.'<br>';
-        echo 'Last Name: '.$endTime.'<br>';
-        echo 'Last Name: '.$actualTime.'<br></br>';
-   }
-
-   /* free results */
-   $stmt->free_result();
-
-   /* close statement */
-   $stmt->close();
+/* close statement */
+$stmt->close();
 
 /* close connection */
 $mysqli->close();
-
-
 ?>

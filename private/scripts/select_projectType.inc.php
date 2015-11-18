@@ -36,7 +36,6 @@ function GetProjecTypesList()
     {
         // Remember the double quotes means that variable names will get turned
         //into their values for you. This is easier than concatenating multiple strings.
-        echo $typename;
         $html = $html . "<option value='$typeName'>$typeName</option>"; //don't add this line wrap!
     }
     $stmt->close();

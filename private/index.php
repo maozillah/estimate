@@ -5,24 +5,47 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Protected Area</title>
+
+<script>
+function showUser(str) {
+    if (str == "") {
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+            }
+        };
+        xmlhttp.open("GET","projects_show.php?q="+str,true);
+        xmlhttp.send();
+    }
+}
+</script>
 </head>
 <body>
 
 <h1>Project Trends</h1>
 
-<form id='gallerySelection' action="projects_show.php" method="get" >
-<p>
-    <select name="projectType">
-          <option value="0">all project types</option>
-          <?php echo GetProjecTypesList(); ?> 
-     </select>
-    
-     <input type="submit" id="btnSubmit" value="Go" />
-</p>
+<!-- <form id='gallerySelection' action="projects_show.php" method="get" > -->
+<form>
+<select name="projectType" onchange="showUser(this.value)">
+
+  <option value="0">all project types</option>
+  <?php echo GetProjecTypesList(); ?> 
+</select>
 </form>
 
+<div id="txtHint"><b>Person info will be listed here...</b></div>
+
 <hr />
-<p><a href="page2.php">Go to page 2</a></p>
 <a href="index.php?logout">Logout</a>
 
 </body>
