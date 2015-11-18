@@ -15,8 +15,5 @@
     </ul>
 </div>
 
-<!-- <div id='galleryImage'>
-    <img src='<?php echo( GetImageFilename() );?>' alt='<?php echo( GetImageFilename() );?>' />
-</div> -->
 </body>
 </html>

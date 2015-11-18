@@ -9,8 +9,6 @@
 <body>
 
 <h1>Project Trends</h1>
-<!-- <h2>Welcome <?php echo GetUserName(); ?></h2>
-<p>You have accessed: <?php echo GetPageCount(); ?> protected pages.</p> -->
 
 <form id='gallerySelection' action="projects_show.php" method="get" >
 <p>
@@ -25,7 +23,7 @@
 
 <hr />
 <p><a href="page2.php">Go to page 2</a></p>
-<p><a href="index.php?logout">Logout</a>
+<a href="index.php?logout">Logout</a>
 
 </body>
 </html>

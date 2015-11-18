@@ -8,7 +8,8 @@ function ConnectToDB()
 {
 
     //server, username, password, database name
-    $mysqli = new mysqli('localhost', 'user', '1234', 'estimate');     
+    $mysqli = new mysqli('localhost', 'user', '1234', 'estimate');  
+    // $mysqli = new mysqli('localhost', 'ixd2434_estimate', 'design1234', 'ixd2434_estimate');     
     if ($mysqli->connect_error != '') 
     {
       // Something has gone wrong, we have an error. Throw it
@@ -17,7 +18,6 @@ function ConnectToDB()
     } else {
         // All is good, return the connection to be used in the
         // other scripts:
-      echo "Connected successfully <br><br>";
       return ($mysqli);
     }
 }
