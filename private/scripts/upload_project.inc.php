@@ -3,8 +3,50 @@
 ini_set('display_errors', '1'); 
 error_reporting(E_ALL); 
 
-// uncomment these next 3 lines for testing writing to your gallery
 // require('db.inc.php');
+
+$nameErr = $typeErr = $scopeErr = "";
+$projectTitle =$type = $scope = $estTime = $actTime="";
+
+$description = isset($_POST['projDescr']) ? test_input($_POST['projDescr']) : "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST['projTitle'])) {
+    $nameErr = "project title is required";
+  } else {
+    $projectTitle = test_input($_POST["projTitle"]);
+  }
+
+  if (empty($_POST["projectType"])) {
+    $typeErr = "project type is required";
+  } else {
+    $type = test_input($_POST["projectType"]);
+  }
+  if (empty($_POST["projectScope"])) {
+    $scopeErr = "project scope is required";
+  } else {
+    $scope = test_input($_POST["projectScope"]);
+  }
+  if (empty($_POST["estTime"])) {
+    $estTErr = "project scope is required";
+  } else {
+    $estTime = test_input($_POST["estTime"]);
+  }
+  if (empty($_POST["actTime"])) {
+    $actTErr = "project scope is required";
+  } else {
+    $actTime = test_input($_POST["actTime"]);
+  }
+}  
+
+echo "Fed into database  <br>",$projectTitle,"<br> ",$type,"<br> ",$scope,"<br>",$description,"<br>", $estTime,"<Br>",$actTime ;
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
 
 $project_active= "1"; //always active
 

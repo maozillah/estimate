@@ -30,14 +30,14 @@
 
 <!-- or to confirmation screen -->
 <form id='gallerySelection' action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" >
-	Project Title:<input type="text" name="projTitle" />
+	Project Title:<input type="text" name="projTitle" /><?php echo $nameErr; ?> 
 	<br />
     <select name="projectType" onchange="fetch_select(this.value);">
           <option value="0">all project types</option>
           <?php echo GetProjecTypesList(); ?> 
      </select>
 
-     <select id="new_select">
+     <select name="projectScope" id="new_select">
          </select>
 
      <br />
