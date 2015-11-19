@@ -12,12 +12,9 @@ function ConnectToDB()
     // $mysqli = new mysqli('localhost', 'ixd2434_estimate', 'design1234', 'ixd2434_estimate');     
     if ($mysqli->connect_error != '') 
     {
-      // Something has gone wrong, we have an error. Throw it
-      // so everything stops:
       throw new Exception('Unable to connect to DB:'.$mysqli->connect_error);
     } else {
-        // All is good, return the connection to be used in the
-        // other scripts:
+      echo 'connection established';
       return ($mysqli);
     }
 }
