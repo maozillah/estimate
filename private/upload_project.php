@@ -6,6 +6,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Upload project data</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+    function fetch_select(val)
+{
+   $.ajax({
+     type: 'post',
+     url: 'scope.php',
+     data: {
+       get_option:val
+     },
+     success: function (response) {
+       document.getElementById("new_select").innerHTML=response; 
+     }
+   });
+}
+</script>
+
 </head>
 <body>
 
@@ -14,16 +31,15 @@
 <!-- or to confirmation screen -->
 <form id='gallerySelection' action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" >
 	Project Title:<input type="text" name="projTitle" />
-	<?php echo $nameErr;?>
 	<br />
-    <select name="projectType">
-          <option value="0">all project types</option><?php echo $typeErr;?>
+    <select name="projectType" onchange="fetch_select(this.value);">
+          <option value="0">all project types</option>
           <?php echo GetProjecTypesList(); ?> 
      </select>
-     <select name="projectScope">
-          <option value="0">all project scope</option><?php echo $scopeErr;?>
-          <?php echo GetScopeList(); ?> 
-     </select>
+
+     <select id="new_select">
+         </select>
+
      <br />
      Project Description:
 	<br />

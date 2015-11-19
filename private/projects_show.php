@@ -16,5 +16,6 @@
 	</head>
 	<body>
 		<?php require('scripts/show_projectType.inc.php'); ?> 
+
 	</body>
 </html>

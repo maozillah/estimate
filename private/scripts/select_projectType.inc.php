@@ -69,9 +69,7 @@ function GetScopeList()
     $html = '';
     while(  $stmt->fetch() )
     {
-        // Remember the double quotes means that variable names will get turned
-        //into their values for you. This is easier than concatenating multiple strings.
-        $html = $html . "<option value='$scopeTitle'>$scopeTitle</option>"; //don't add this line wrap!
+        $html = $html . "<option value='$scopeTitle'>$scopeTitle</option>"; 
     }
     $stmt->close();
     $mysqli->close();

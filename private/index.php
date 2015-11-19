@@ -34,6 +34,9 @@ function showUser(str) {
 
 <h1>Project Trends</h1>
 
+<a href="upload_project.php">upload project</a>
+
+
 <!-- <form id='gallerySelection' action="projects_show.php" method="get" > -->
 <form>
 <select name="projectType" onchange="showUser(this.value)">
