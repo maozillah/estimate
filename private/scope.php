@@ -25,7 +25,7 @@ $q = $_POST['get_option'];
     if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "<option>".$row['scope_title']."</option>";
+        echo '<option value="'.$row['scope_title'].'">'.$row['scope_title'].'</option>';
     }
 } else {
     echo "0 results";
