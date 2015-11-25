@@ -1,9 +1,11 @@
-<?php //gallery_show.inc.php
-require('db.inc.php');
+<?php
+ //gallery_show.inc.php
+require ('db.inc.php');
 
 if (isset($_GET['q'])) {
     $q = $_GET['q'];
-} else {
+} 
+else {
     $q = 0;
 }
 
@@ -18,7 +20,7 @@ $mysqli = ConnectToDB();
 //       JOIN type
 //         ON type.type_id = project.type_id
 //       JOIN scope
-//         ON scope.scope_id =project.scope_id 
+//         ON scope.scope_id =project.scope_id
 //       JOIN phase
 //         ON project.project_id = phase.project_id
 //       JOIN phase_titles
@@ -32,7 +34,7 @@ $mysqli = ConnectToDB();
 //     /* execute query */
 // $stmt->execute();
 // } else {
-    $sql = 'SELECT project.project_title, type.type_title, scope.scope_title, time_entry.start_time, time_entry.end_time, time_entry.actual_time
+$sql = 'SELECT project.project_title, type.type_title, scope.scope_title, time_entry.start_time, time_entry.end_time, time_entry.actual_time
 FROM project
   JOIN type
     ON type.type_id = project.type_id
@@ -48,10 +50,12 @@ FROM project
   AND type_title =?
   ';
 
-  $stmt   = $mysqli->prepare($sql);
+$stmt = $mysqli->prepare($sql);
 $stmt->bind_param('ss', $userName, $q);
+
 /* execute query */
 $stmt->execute();
+
 // }
 
 /* Store the result (to get properties) */
@@ -65,12 +69,12 @@ $stmt->bind_result($projectTitle, $projectType, $scope, $startTime, $endTime, $a
 
 echo "<table>
       <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Age</th>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Age</th>
+        <th>Project Title</th>
+        <th>Type</th>
+        <th>Scope</th>
+        <th>Start Time</th>
+        <th>End time</th>
+        <th>Actual time</th>
       </tr>";
 while ($stmt->fetch()) {
     echo "<tr>";
