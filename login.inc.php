@@ -46,7 +46,7 @@ function ValidateLogin() {
         header("Location: show.php");
     } 
     else {
-        return ('That is an invalid login name or password.');
+        return ('<div class="alert alert-danger" role="alert">That is an invalid login name or password.</div>');
     }
 }
 ?>

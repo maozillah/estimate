@@ -5,7 +5,7 @@ require ('scripts/select_projectType.inc.php'); ?>
 <?php
 require ('header.php'); ?>
 <h1>Project Trends</h1>
-<a href="upload_project.php">upload project</a>
+
 <!-- <form id='gallerySelection' action="projects_show.php" method="get" > -->
 <form>
     <select name="projectType" onchange="showUser(this.value)">
@@ -14,9 +14,7 @@ require ('header.php'); ?>
 echo GetProjecTypesList(); ?>
     </select>
 </form>
-<div id="txtHint"><b>Person info will be listed here...</b></div>
-<hr />
-<a href="index.php?logout">Logout</a>
+<div id="txtHint"></div>
 
 <script>
 function showUser(str) {

@@ -14,7 +14,7 @@ function ConnectToDB()
     {
       throw new Exception('Unable to connect to DB:'.$mysqli->connect_error);
     } else {
-      echo 'connection established';
+      // echo 'connection established';
       return ($mysqli);
     }
 }

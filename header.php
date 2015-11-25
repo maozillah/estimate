@@ -9,5 +9,18 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/signin.css" rel="stylesheet">
+    <link href="css/jumbotron-narrow.css" rel="stylesheet">
+
     <body>
+
+  <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="show.php">Trends</a></li>
+            <li role="presentation"><a href="upload_project.php">Upload</a></li>
+            <li role="presentation"><a href="index.php?logout">Logout</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Estimate</h3>
+      </div>
