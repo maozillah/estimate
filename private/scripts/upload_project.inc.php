@@ -66,6 +66,12 @@ $endTime2 = "5:00:00";
 function insertProjects()
 {
 $db = ConnectToDB();
+
+//get type id and scope id
+
+$sqltype="SELECT type_id FROM type WHERE type_title="$type"";
+$sqlscope="SELECT type_id FROM type WHERE type_title="$scope"";
+
 try {
     // First of all, let's begin a transaction
     $db->begin_transaction();
