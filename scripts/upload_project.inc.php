@@ -120,25 +120,25 @@ SELECT scope_id FROM scope WHERE scope_title='$scope';
     $result2->close();
     $result->close();
     
-    try {
+//     try {
         
-        $db->begin_transaction();
+//         $db->begin_transaction();
         
-        $db->query("INSERT INTO project (project_id, project_active, user_email, type_id, scope_id, project_title, description)
-VALUES('$projectID','$project_active', '$userEmail', '$typeID','$scopeID','$projectTitle','$description');");
+//         $db->query("INSERT INTO project (project_id, project_active, user_email, type_id, scope_id, project_title, description)
+// VALUES('$projectID','$project_active', '$userEmail', '$typeID','$scopeID','$projectTitle','$description');");
         
-        $db->query("INSERT INTO phase (phase_id, project_id, phase_title_id, phase_active)
-VALUES('$projectID','$projectID','1','1')");
+//         $db->query("INSERT INTO phase (phase_id, project_id, phase_title_id, phase_active)
+// VALUES('$projectID','$projectID','1','1')");
         
-        $db->query("INSERT INTO time_entry (phase_id, actual_time, start_time, end_time)
-VALUES('$phaseID','$actualTime','$startTime','$endTime'),('$phaseID','$actualTime2','$startTime2','$endTime2');");
+//         $db->query("INSERT INTO time_entry (phase_id, actual_time, start_time, end_time)
+// VALUES('$phaseID','$actualTime','$startTime','$endTime'),('$phaseID','$actualTime2','$startTime2','$endTime2');");
         
-        $db->commit();
-        echo "New record created successfully";
-    }
-    catch(Exception $e) {
-        $db->rollback();
-    }
+//         $db->commit();
+//         echo "New record created successfully";
+//     }
+//     catch(Exception $e) {
+//         $db->rollback();
+//     }
     
     mysqli_close($db);
 }

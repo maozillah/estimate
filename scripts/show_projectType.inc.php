@@ -9,7 +9,7 @@ else {
     $q = 0;
 }
 
-echo $q;
+// echo $q;
 
 $userName = GetUserName();
 $mysqli = ConnectToDB();
@@ -34,7 +34,7 @@ $mysqli = ConnectToDB();
 //     /* execute query */
 // $stmt->execute();
 // } else {
-$sql = 'SELECT project.project_title, type.type_title, scope.scope_title, time_entry.start_time, time_entry.end_time, time_entry.actual_time
+$sql = 'SELECT project.project_title, type.type_title, scope.scope_title, time_entry.end_time, time_entry.actual_time
 FROM project
   JOIN type
     ON type.type_id = project.type_id
@@ -65,28 +65,27 @@ $stmt->store_result();
 $num_of_rows = $stmt->num_rows;
 
 /* Bind the result to variables */
-$stmt->bind_result($projectTitle, $projectType, $scope, $startTime, $endTime, $actualTime);
+$stmt->bind_result($projectTitle, $projectType, $scope, $endTime, $actualTime);
 
-echo "<table>
-      <tr>
-        <th>Project Title</th>
-        <th>Type</th>
-        <th>Scope</th>
-        <th>Start Time</th>
-        <th>End time</th>
-        <th>Actual time</th>
-      </tr>";
+echo '<h2>Summary</h2>
+<hr/>';
+
+
 while ($stmt->fetch()) {
-    echo "<tr>";
-    echo "<td>" . $projectTitle . "</td>";
-    echo "<td>" . $projectType . "</td>";
-    echo "<td>" . $scope . "</td>";
-    echo "<td>" . $startTime . "</td>";
-    echo "<td>" . $endTime . "</td>";
-    echo "<td>" . $actualTime . "</td>";
-    echo "</tr>";
+
+  if ($actualTime == '1') {
+    echo '<div class="panel panel-default"> 
+    <div class="panel-heading">';
+    echo '<h3 class="panel-title">' . $projectTitle .'</h3> </div> <div class="panel-body">';
+    echo "<p>Scope: " . $scope .'</p>';
+    echo "Estimated Time: " . $endTime .'</p>';
+    echo '</div></div>';
+
+  } else {
+    echo "estimate time" . $endTime;
+  }
+
 }
-echo "</table>";
 
 $stmt->free_result();
 
